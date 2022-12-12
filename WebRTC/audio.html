@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打开麦克风</title>
+</head>
+
+<body>
+    <audio id="local-audio" autoplay controls></audio>
+    <button id="open-button">打开麦克风</button>
+    <p>通过getUserMedia获取音频</p>
+</body>
+<script>
+    document.querySelector('#open-button').addEventListener('click', (e) => {
+        const constraints = {
+            video: false,
+            audio: true
+        }
+        navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+            document.querySelector('#local-audio').srcObject = stream
+        }).catch(err => {
+            alert(err)
+        })
+    })
+</script>
+
+</html>

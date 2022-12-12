@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打开摄像头</title>
+</head>
+
+<body>
+    <video id="local-video" autoplay playsinline></video>
+    <button id="open-button">打开摄像头</button>
+    <p>通过getUserMedia获取视频</p>
+</body>
+<script>
+    document.querySelector('#open-button').addEventListener('click', (e) => {
+        const constraints = {
+            video: true,
+            audio: false
+        }
+        navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+            document.querySelector('#local-video').srcObject = stream
+        }).catch(err => {
+            alert(err)
+        })
+    })
+</script>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // var arr = [7, 4, 1, 2, 9, 6, 5, 8]
+        // 归并
+                function combine(arr1, arr2) {
+                    let res = []
+                    while (arr1.length !== 0 && arr2.length !== 0) {
+                        if (arr1[0] <= arr2[0]) {
+                            let a = arr1.shift()
+                            res.push(a)
+                        }
+                        else {
+                            let b = arr2.shift()
+                            res.push(b)
+                        }
+                    }
+                    res.push(...arr1, ...arr2)
+                    return res
+                }
+                function mergeSort(arr) {
+                    if (arr.length == 1) {
+                        return arr;
+                    }
+                    let mid = Math.floor(arr.length / 2);
+                    let left_arr = arr.slice(0, mid);
+                    let right_arr = arr.slice(mid);
+
+                    return combine(mergeSort(left_arr), mergeSort(right_arr));
+                }
+
+
+        var arr = [7, 4, 1, 2, 9, 6, 5, 8];
+        console.log(mergeSort(arr))
+
+    </script>
+</body>
+
+</html>

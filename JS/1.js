@@ -1,0 +1,5 @@
+class MyReadonly {
+    get x() {
+        
+    }
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+        有n个大小不同的杯子和与之匹配的n个杯盖, 你可以尝试一个杯子和一个杯盖是否匹配, 尝试结果有三种：
+        （1）杯子太大；
+        （2）匹配成功；
+        （3）杯盖太大. 
+        请设计一个分治算法完成所有杯子和杯盖的匹配, 算法的时间复杂性用匹配尝试的次数来衡量。
+     -->
+    <script>
+
+        class CupMethod {
+            constructor(cup, cup_lid) {
+                this.cup = cup
+                this.cup_lid = cup_lid
+            }
+            Merge(cup_l, cup_r) {
+                return [...cup_l, ...cup_r]
+            }
+            divideAndConquer(cup) {
+                let mid = Math.floor(cup.length / 2)
+                if (cup.length <= 1) {
+
+                    // 查找符合杯盖的杯子
+                    let i = this.cup_lid.indexOf(cup[0])
+                    let j = this.cup.indexOf(cup[0])
+                    this.switchCup(i, j)
+                    return cup
+                }
+                let cup_l = cup.slice(0, mid)
+                let cup_r = cup.slice(mid)
+                return this.Merge(this.divideAndConquer(cup_l), this.divideAndConquer(cup_r))
+            }
+            // 交换杯子中的两个元素
+            switchCup(a, b) {
+                let temp = this.cup[a]
+                this.cup[a] = this.cup[b]
+                this.cup[b] = temp
+            }
+        }
+
+        const cup = [7, 4, 1, 2, 9, 6, 5, 8]
+        const cup_lid = [2, 1, 9, 5, 4, 7, 8, 6]
+
+        const cup_res = new CupMethod(cup, cup_lid)
+        console.log('找杯盖操作之前：\n', ' 杯子:', cup_res.cup, '\n', '杯盖:', cup_res.cup_lid);
+        cup_res.divideAndConquer(cup) // 分治理进行找杯盖操作
+        console.log('找杯盖操作之后：\n', ' 杯子:', cup_res.cup, '\n', '杯盖:', cup_res.cup_lid); 
+    </script>
+</body>
+
+</html>

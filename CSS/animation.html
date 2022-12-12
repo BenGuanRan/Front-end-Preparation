@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <div class="a"></div>
+</body>
+<style>
+    .a {
+        width: 50px;
+        height: 50px;
+        background: #f40;
+        border-radius: 50%;
+        /*动画名称*/
+        animation-name: mymove;
+        /*动画持续时间*/
+        animation-duration: 2s;
+        /* 动画效果 */
+        animation-timing-function: ease-in-out;
+        /* 动画延迟时间 */
+        animation-delay: 1s;
+        /* 动画执行次数 */
+        animation-iteration-count: infinite;
+        /* 动画播放情况，正向、反向、正反交替等 */
+        animation-direction: normal;
+        /* 动画状态，暂停还是播放 */
+        animation-play-state: running;
+    }
+
+    /* 定义动画帧 */
+    @keyframes mymove {
+        0% {
+            width: 50px;
+            height: 50px;
+        }
+
+        50% {
+            width: 100px;
+            height: 100px;
+        }
+
+        100% {
+            width: 50px;
+            height: 50px;
+        }
+    }
+</style>
+
+</html>

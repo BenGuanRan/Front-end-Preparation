@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <video id="test-video" autoplay playsinline muted> </video>
+    <button id="open-btn">打开摄像头</button>
+    <button id="close-btn">关闭摄像头</button>
+    <button id="takephoto-btn">拍照</button>
+    <button id="change-cinema-btn">切换设备</button>
+    <button id="share-screen-btn">共享屏幕</button>
+    <button id="recording-btn">开始录制</button>
+    <button id="stop-recording-btn">停止录制</button>
+    <button id="review-recording-btn">回放</button>
+    <button id="download-btn">下载录制视频</button>
+    <img id="photo" src="" alt="">
+    <video id="replay-player" autoplay playsinline muted></video>
+</body>
+<script>
+    const vdo = document.querySelector('#test-video')
+    const o_btn = document.querySelector('#open-btn')
+    const c_btn = document.querySelector('#close-btn')
+    const t_btn = document.querySelector('#takephoto-btn')
+    const g_btn = document.querySelector('#change-cinema-btn')
+    const s_btn = document.querySelector('#share-screen-btn')
+    const r_btn = document.querySelector('#recording-btn')
+    const b_btn = document.querySelector('#stop-recording-btn')
+    const l_btn = document.querySelector('#review-recording-btn')
+    const pto = document.querySelector('#photo')
+    const replayer = document.querySelector('#replay-player')
+    const d_btn = document.querySelector('#download-btn')
+    let blobs = []; // 用于存放录制视频的二进制文件
+    let mediaRecorder = null; // 录制对象
+    // 获取视频流
+    async function getVideoStream(vdo) {
+        const content = {
+            video: {
+                width: 300,
+                heigth: 150
+            },
+            audio: true
+        }
+        try {
+            const videoStream = await navigator.mediaDevices.getUserMedia(content)
+            vdo.srcObject = videoStream
+        } catch (error) {
+            alert(error)
+        }
+
+    }
+    // 删除视频流
+    function removeVideoStream(vdo) {
+        vdo.srcObject = null
+    }
+    // 拍照
+    function takePhoto(vdo, pto) {
+        const canvas = document.createElement('canvas')
+        canvas.width = vdo.videoWidth
+        canvas.height = vdo.videoHeight
+        const ctx = canvas.getContext('2d')
+        ctx.drawImage(vdo, 0, 0, canvas.width, canvas.height)
+        pto.src = canvas.toDataURL('image/png')
+    }
+    // 切换摄像头
+    async function changeCinema() {
+        try {
+            const devices = await navigator.mediaDevices.enumerateDevices()
+            const videoDevices = devices.filter((device) => device.kind === 'videoinput')
+            console.log(videoDevices);
+        } catch (error) {
+            alert(error)
+        }
+    }
+    // 共享屏幕
+    async function shareScreen(vdo) {
+        try {
+            const localStream = await navigator.mediaDevices.getDisplayMedia({
+                audio: true,
+                video: {
+                    width: 350
+                },
+            })
+            vdo.srcObject = localStream
+        } catch (error) {
+            alert(error)
+        }
+    }
+    // 获取浏览器支持的媒体类型
+    function getSupportedMimeTypes() {
+        const media = 'video'
+        // 常用的视频格式
+        const types = [
+            'webm',
+            'mp4',
+            'ogg',
+            'mov',
+            'avi',
+            'wmv',
+            'flv',
+            'mkv',
+            'ts',
+            'x-matroska',
+        ]
+        // 常用的视频编码
+        const codecs = ['vp9', 'vp9.0', 'vp8', 'vp8.0', 'avc1', 'av1', 'h265', 'h264']
+        // 支持的媒体类型
+        const supported = []
+        const isSupported = MediaRecorder.isTypeSupported
+        // 遍历判断所有的媒体类型
+        types.forEach((type) => {
+            const mimeType = `${media}/${type}`
+            codecs.forEach((codec) =>
+                [
+                    `${mimeType};codecs=${codec}`,
+                    `${mimeType};codecs=${codec.toUpperCase()}`,
+                ].forEach((variation) => {
+                    if (isSupported(variation)) supported.push(variation)
+                }),
+            )
+            if (isSupported(mimeType)) supported.push(mimeType)
+        })
+        return supported
+    }
+    // 开始录制
+    function recordingScreen(localStream) {
+        blobs = []
+        const kbps = 1024
+        const Mbps = kbps * kbps
+        const options = {
+            audioBitsPerSecond: 128000,
+            videoBitsPerSecond: 2500000,
+            mimeType: 'video/webm; codecs="vp8,opus"',
+        }
+        mediaRecorder = new MediaRecorder(localStream, options)
+        mediaRecorder.start(100)
+        mediaRecorder.ondataavailable = (e) => {
+            // 将录制的数据合并成一个 Blob 对象
+            // const blob = new Blob([e.data], { type: e.data.type })
+
+            // 🌸重点是这个地方，我们不要把获取到的 e.data.type设置成 blob 的 type，而是直接改成 mp4
+            blobs.push(e.data)
+        }
+
+    }
+    // 暂停录制
+    function stopRecord() {
+        mediaRecorder && mediaRecorder.stop();
+
+    }
+    // 回放
+    function replay(replayer, blobs) {
+        const blob = new Blob(blobs, { type: 'video/mp4' });
+        console.log(blobs);
+        replayer.src = URL.createObjectURL(blob);
+    }
+    // 下载
+    function downloadVideo() {
+        var blob = new Blob(blobs, { type: 'video/mp4' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'record.mp4';
+        a.click();
+    }
+    o_btn.onclick = () => {
+        return getVideoStream(vdo)
+    }
+    c_btn.onclick = () => {
+        return removeVideoStream(vdo)
+    }
+    t_btn.onclick = () => {
+        return takePhoto(vdo, pto)
+    }
+    g_btn.onclick = () => {
+        return changeCinema()
+    }
+    s_btn.onclick = () => {
+        return shareScreen(vdo)
+    }
+    r_btn.onclick = () => {
+        return recordingScreen(vdo.srcObject)
+    }
+    b_btn.onclick = () => {
+        return stopRecord()
+    }
+    l_btn.onclick = () => {
+        return replay(replayer, blobs)
+    }
+    d_btn.onclick = () => {
+        return downloadVideo(blobs)
+    }
+</script>
+
+</html>

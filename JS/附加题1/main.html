@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="b1">work1未完成</div>
+    <div class="b2">work2未完成</div>   
+    <div class="view"></div>
+</body>
+<script type="module">
+    import { changeStyle } from './changStyle.js'
+    const b1 = document.querySelector('.b1')
+    const b2 = document.querySelector('.b2')
+    const v = document.querySelector('.view')
+    async function a_or_b() {
+        return new Promise((resolve, reject) => {
+            const w1 = new Worker('work1.js')
+            const w2 = new Worker('work2.js')
+            let w1Flag = undefined, w2Flag = undefined
+            w1.onmessage = (val) => {
+                if (val.data === true) {
+                    w2.terminate()
+                    w1Flag = true
+                    changeStyle(b1, 'b1_success', 'w1已完成')
+                    resolve(true)
+                } else {
+                    w1Flag = false
+                    changeStyle(b1, 'b1_error', 'w1已失败')
+                }
+                if (!w1Flag && w2Flag !== undefined) resolve(false)
+            }
+            w2.onmessage = (val) => {
+
+                if (val.data === true) {
+                    w1.terminate()
+                    w2Flag = true
+                    changeStyle(b2, 'b2_success', 'w2已完成')
+                    resolve(true)
+                } else {
+                    w2Flag = false
+                    changeStyle(b2, 'b2_error', 'w1已失败')
+                }
+                if (!w2Flag && w1Flag !== undefined) resolve(false)
+            }
+        })
+        // while (true) {
+        //     console.log(hasDoneTaskCount);
+        //     if (w1Flag) return w1Flag
+        //     if (w2Flag) return w2Flag
+        //     if (hasDoneTaskCount === 2) return false
+        // }
+    }
+    async function test() {
+        let t1 = new Date().getTime()
+        console.log(t1);
+        console.time()
+        if (await a_or_b()) {
+            console.log('task_a 或 task_b 满足要求')
+            v.innerHTML = 'task_a 或 task_b 满足要求'
+        }
+        else {
+            console.log('task_a 且 task_b 都不满足要求')
+            v.innerHTML = 'task_a 且 task_b 都不满足要求'
+        }
+
+        let t2 = new Date().getTime()
+        console.timeEnd()
+        v.innerHTML += `-----总耗时${(t2 - t1) / 1000} s`
+    }
+    test()
+
+</script>
+
+<style>
+    .b1,
+    .b2 {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        background-color: #ccc;
+    }
+
+    .b1_success,
+    .b2_success {
+        background-color: green;
+    }
+
+    .b1_error,
+    .b2_error {
+        background-color: red;
+    }
+</style>
+
+</html>

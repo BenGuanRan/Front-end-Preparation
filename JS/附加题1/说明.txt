@@ -1,0 +1,2 @@
+由于要并行运行任务，但考虑到js主线程是单线程运行的，因此想到了h5新增的web-worker，用来并行运行两个任务
+由于谷歌等浏览器无法从本地文件访问web-worker，因此需要Open with live server，开启web服务器运行。

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button>点我+1</button>
+    <span>0</span>
+</body>
+<script type="module">
+    import { Debounce, Limit, Throttle, Once, Consumer } from './高阶函数.js'
+    const btn = document.querySelector('button')
+    const span = document.querySelector('span')
+    const df = Debounce(() => {
+        span.innerHTML = Number(span.innerHTML) + 1
+    }, 1000)
+    btn.onclick = df
+</script>
+
+</html>

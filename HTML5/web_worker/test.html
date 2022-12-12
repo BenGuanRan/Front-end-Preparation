@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="t" width="150" height="150"></canvas>
+
+</body>
+
+<script>
+    const canvas = document.querySelector('#t')
+    const ctx = canvas.getContext('2d')
+    console.log(ctx);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(100, 0);
+    ctx.lineTo(50, 50);
+    ctx.fillStyle = "#1ec468";
+    ctx.fill();
+</script>
+
+</html>

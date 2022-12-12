@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>层结构</title>
+    <style type="text/css">
+        #A,
+        #B,
+        #C,
+        #D {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+        }
+
+        #A {
+            transform: scale(10);
+            background-color: pink;
+            z-index: 1;
+        }
+
+        #B {
+            left: 40px;
+            top: 40px;
+            background-color: yellow;
+            z-index: 2;
+        }
+
+        #C {
+            left: 60px;
+            top: 60px;
+            z-index: 3;
+            background-color: red;
+        }
+
+        #D {
+            left: 100px;
+            top: 100px;
+            background-color: green;
+            z-index: 4;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="A">A</div>
+    <div id="B">B</div>
+    <div id="C">C</div>
+    <div id="D">D</div>
+</body>
+
+</html>
