@@ -10,5 +10,6 @@ module.exports = merge(common, {
             directory: path.join(__dirname, '../../dist/client'),
         },
         hot: true,
+        port: 8000
     },
 })
