@@ -11,28 +11,21 @@
  * @return {ListNode}
  */
 var partition = function (head, x) {
-    let l = new ListNode('-', head)
-        // 让l， r分别指向分界线的边界
-        , r = head
-    let prev = null
-    while (l && l.next.val < x) {
-        l = l.next
-    }
-    while (r && r.val < x) {
-        prev = r
-        r = r.next
-    }
-    while (r) {
-        prev = r
-        if (r.val >= x) {
-            r = r.next
+    let p = head
+    let h1 = new ListNode('l', null)
+    let p1 = h1
+    let h2 = new ListNode('r', null)
+    let p2 = h2
+    while (p) {
+        if (p.val < x) {
+            p1.next = new ListNode(p.val, null)
+            p1 = p1.next
         } else {
-            prev.next = r.next
-            let t = l.next
-            l.next = new ListNode(r.val, t)
-            r = prev.next
+            p2.next = new ListNode(p.val, null)
+            p2 = p2.next
         }
-
+        p = p.next
     }
-    return head
+    p1.next = h2.next
+    return h1.next
 };

@@ -18,4 +18,4 @@ scene.add(cube);
 const renderer = new THREE.WebGLRenderer()
 // renderer.setSize(window.innerWidth, wi`ndow.innerHeight)
 document.body.appendChild(renderer.domElement);
-renderer.render(scene, camera)
+    renderer.render(scene, camera)
