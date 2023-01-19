@@ -1,4 +1,4 @@
-import init from './utils/init'
+import init from '@/utils/init'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 

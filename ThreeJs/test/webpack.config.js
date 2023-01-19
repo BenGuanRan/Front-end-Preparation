@@ -1,10 +1,11 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const { PassThrough } = require('stream');
 module.exports = {
     // 入口文件
-    entry: './src/main.js',
+    entry: './src/main.ts',
     // 出口
     output: {
         path: path.resolve(__dirname, "dist"), // 绝对路径
@@ -14,10 +15,17 @@ module.exports = {
     module: {
         rules: [
             // loader的配置
+            {
+                test: /.ts$/,
+                use: {
+                    loader: "ts-loader",
+                },
+                exclude: /node_modules/,
+            },
         ]
     },
     plugins: [
-        // 插件的配置
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'src/index.html'
@@ -28,6 +36,12 @@ module.exports = {
             ],
         }),
     ],
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+        alias: {
+            '@': path.resolve(__dirname, './src')
+        },
+    },
     mode: 'development',
     devServer: {
         static: {

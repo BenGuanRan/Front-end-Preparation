@@ -1,9 +1,10 @@
 import * as THREE from 'three'
-import { IcosahedronGeometry } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { gsap } from 'gsap'
 
-export default function init(callback) {
+export default function init(
+    callback: (obj: InitCallbackProps) => void,
+    options: InitOptionsProps = { axesHelper: false }
+) {
 
     // 定义渲染尺寸
     const sizes = {
@@ -34,6 +35,7 @@ export default function init(callback) {
         // 更新渲染
         renderer.setSize(sizes.width, sizes.height);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+        
         // 更新相机
         camera.aspect = sizes.width / sizes.height;
         camera.updateProjectionMatrix();
@@ -44,24 +46,27 @@ export default function init(callback) {
     controls.enableDamping = true;
     controls.update();
 
-    // 创建一个辅助轴
-    const axesHelper = new THREE.AxesHelper(500);
-    scene.add(axesHelper);
-    callback({
-        scene, controls, camera, T: THREE, renderer, THREE
-    })
+    if (options.axesHelper) {
+        // 创建一个辅助轴
+        const axesHelper = new THREE.AxesHelper(500);
+        scene.add(axesHelper);
+    }
 
     // 光源
-    const light = new THREE.AmbientLight(0xdeedff, 1.5);
+    const light = new THREE.AmbientLight('#606008', 1);
     scene.add(light);
+
+    callback({
+        scene, controls, camera, renderer, THREE
+    })
+
+
+
 
     function animate() {
         requestAnimationFrame(animate)
         renderer.render(scene, camera)
         controls.update()
     }
-
-
-    animate()
-    return renderer.render(scene, camera)
+    return animate()
 }

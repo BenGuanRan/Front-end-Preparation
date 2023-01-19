@@ -2,7 +2,7 @@
 // 没有定义顶点法向量数据。没有法向量数据，点光源、平行光等带有方向性的光源不会起作用，三角形平面整个渲染效果相对暗淡，而且两个三角形分界位置没有棱角感。
 import init from './utils/init'
 
-init(({ scene, controls, camera, THREE, renderer, T }) => {
+init(({ scene, controls, camera, THREE, renderer, THREE }) => {
     var geometry = new THREE.BufferGeometry(); //声明一个空几何体对象
     //类型数组创建顶点位置position数据
     var vertices = new Float32Array([
@@ -30,10 +30,10 @@ init(({ scene, controls, camera, THREE, renderer, T }) => {
         0, 2, 3
     ])
     geometry.index = new THREE.BufferAttribute(indexes, 1)
-    const material = new T.MeshBasicMaterial({
+    const material = new THREE.MeshBasicMaterial({
         color: 0x0000ff,
-        side: T.DoubleSide // 两面可见
+        side: THREE.DoubleSide // 两面可见
     })
-    const mesh = new T.Mesh(geometry, material)
+    const mesh = new THREE.Mesh(geometry, material)
     scene.add(mesh)
 })
