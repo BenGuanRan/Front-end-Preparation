@@ -35,7 +35,7 @@ export default function init(
         // 更新渲染
         renderer.setSize(sizes.width, sizes.height);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-        
+
         // 更新相机
         camera.aspect = sizes.width / sizes.height;
         camera.updateProjectionMatrix();
@@ -55,6 +55,13 @@ export default function init(
     // 光源
     const light = new THREE.AmbientLight('#606008', 1);
     scene.add(light);
+
+    // 构造一个平面
+    const geometry = new THREE.PlaneGeometry(1000, 1000)
+    const material = new THREE.MeshLambertMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
+    const plane = new THREE.Mesh(geometry, material);
+    plane.rotateX(Math.PI / 2)
+    scene.add(plane);
 
     callback({
         scene, controls, camera, renderer, THREE
