@@ -8,5 +8,7 @@ type InitCallbackProps = {
 }
 /** init options 参数类型 */
 type InitOptionsProps = {
-    axesHelper?: boolean
+    axesHelper?: boolean,
+    plane?: boolean,
+    d_light?: boolean
 }

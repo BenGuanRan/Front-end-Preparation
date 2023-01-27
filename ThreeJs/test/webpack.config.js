@@ -33,6 +33,7 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 { from: path.resolve(__dirname, "./src/assets/fonts"), to: path.resolve(__dirname, "./dist/fonts") },
+                { from: path.resolve(__dirname, "./src/assets/images"), to: path.resolve(__dirname, "./dist/images") },
             ],
         }),
     ],

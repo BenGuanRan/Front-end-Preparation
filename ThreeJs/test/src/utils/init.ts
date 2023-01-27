@@ -2,8 +2,8 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 export default function init(
-    callback: (obj: InitCallbackProps) => void,
-    options: InitOptionsProps = { axesHelper: false }
+    callback: (obj: InitCallbackProps) => void | (() => any),
+    options: InitOptionsProps = { axesHelper: false, plane: false, d_light: false }
 ) {
 
     // 定义渲染尺寸
@@ -38,6 +38,7 @@ export default function init(
 
         // 更新相机
         camera.aspect = sizes.width / sizes.height;
+        // 更新相机的投影矩阵
         camera.updateProjectionMatrix();
     });
 
@@ -53,17 +54,41 @@ export default function init(
     }
 
     // 光源
-    const light = new THREE.AmbientLight('#606008', 1);
+    const light = new THREE.AmbientLight('#ffffff', 1);
     scene.add(light);
 
-    // 构造一个平面
-    const geometry = new THREE.PlaneGeometry(1000, 1000)
-    const material = new THREE.MeshLambertMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
-    const plane = new THREE.Mesh(geometry, material);
-    plane.rotateX(Math.PI / 2)
-    scene.add(plane);
+    // 平行光
+    if (options.d_light) {
+        const d_light = new THREE.DirectionalLight(0xFFFFFF);
+        const helper = new THREE.DirectionalLightHelper(d_light, 5, 0xff000000);
+        d_light.translateX(1000)
+        d_light.translateY(1000)
+        d_light.translateZ(1000)
+        renderer.shadowMap.enabled = true
+        d_light.castShadow = true
+        d_light.shadow.camera.near = 10
+        d_light.shadow.camera.far = 20000
+        d_light.shadow.camera.left = -100; //产生阴影距离位置的最左边位置
+        d_light.shadow.camera.right = 100; //最右边
+        d_light.shadow.camera.top = 400; //最上边
+        d_light.shadow.camera.bottom = -400; //最下面
+        d_light.shadow.mapSize.height = 1024;
+        d_light.shadow.mapSize.width = 1024;
+        scene.add(d_light);
+        scene.add(helper);
+    }
+    if (options.plane) {
+        // 构造一个平面
+        const geometry = new THREE.PlaneGeometry(1000, 1000)
+        const material = new THREE.MeshLambertMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
+        const plane = new THREE.Mesh(geometry, material);
+        plane.rotateX(Math.PI / 2)
+        plane.receiveShadow = true
+        scene.add(plane);
+    }
 
-    callback({
+
+    const returnFunc = callback({
         scene, controls, camera, renderer, THREE
     })
 
@@ -71,6 +96,8 @@ export default function init(
 
 
     function animate() {
+        // 进行一些渲染函数动作
+        if (returnFunc) returnFunc()
         requestAnimationFrame(animate)
         renderer.render(scene, camera)
         controls.update()

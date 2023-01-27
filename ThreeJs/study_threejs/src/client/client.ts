@@ -23,6 +23,8 @@ document.body.appendChild(renderer.domElement);
 
 // 设置轨道控制器
 const controls = new OrbitControls(camera, renderer.domElement);
+// 设置控制器阻尼
+controls.enableDamping = true
 
 // 添加坐标轴辅助器
 const axesHelper = new THREE.AxesHelper(5);
@@ -32,10 +34,17 @@ scene.add(axesHelper);
 const clock = new THREE.Clock()
 
 // 引入gsap
-gsap.from(cube.position, { x: 1, duration: 5 })
-gsap.to(cube.rotation, { x: 100, duration: 25 })
+gsap.to(cube.position, { x: 10, duration: 5 })
+// gsap.to(cube.rotation, { x: 100, duration: 25 })
 function animate() {
+    controls.update()
     renderer.render(scene, camera)
     window.requestAnimationFrame(animate)
 }
 animate()
+
+// 设置自适应
+window.onresize = () => {
+    camera.aspect = window.innerWidth / window.innerHeight
+    
+}
