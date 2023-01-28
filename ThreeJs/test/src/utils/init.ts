@@ -26,7 +26,7 @@ export default function init(
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    window.document.body.appendChild(renderer.domElement)
+    window.document.querySelector('#threejs_container')!.appendChild(renderer.domElement)
 
     // 页面缩放事件监听
     window.addEventListener('resize', () => {

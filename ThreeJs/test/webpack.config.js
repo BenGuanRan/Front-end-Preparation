@@ -5,7 +5,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const { PassThrough } = require('stream');
 module.exports = {
     // 入口文件
-    entry: './src/main.ts',
+    entry: './src/main.tsx',
     // 出口
     output: {
         path: path.resolve(__dirname, "dist"), // 绝对路径
@@ -16,7 +16,7 @@ module.exports = {
         rules: [
             // loader的配置
             {
-                test: /.ts$/,
+                test: /.tsx?$/,
                 use: {
                     loader: "ts-loader",
                 },
