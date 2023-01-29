@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 export default function init(
-    callback: (obj: InitCallbackProps) => void | (() => any),
+    callback: (obj: InitCallbackProps) => any,
     options: InitOptionsProps = { axesHelper: false, plane: false, d_light: false }
 ) {
 
@@ -59,7 +59,7 @@ export default function init(
 
     // 平行光
     if (options.d_light) {
-        const d_light = new THREE.DirectionalLight(0xFFFFFF);
+        const d_light = new THREE.DirectionalLight(0xFFFFFF, 0.5);
         const helper = new THREE.DirectionalLightHelper(d_light, 5, 0xff000000);
         d_light.translateX(1000)
         d_light.translateY(1000)
@@ -97,7 +97,7 @@ export default function init(
 
     function animate() {
         // 进行一些渲染函数动作
-        if (returnFunc) returnFunc()
+        if (returnFunc && !(returnFunc instanceof Promise)) returnFunc()
         requestAnimationFrame(animate)
         renderer.render(scene, camera)
         controls.update()
