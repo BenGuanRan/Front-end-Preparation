@@ -95,12 +95,13 @@ export default function init(
 
 
 
-    function animate() {
-        // 进行一些渲染函数动作
-        if (returnFunc && !(returnFunc instanceof Promise)) returnFunc()
+    function animate(time?: DOMHighResTimeStamp) {
+
         requestAnimationFrame(animate)
         renderer.render(scene, camera)
         controls.update()
+        // 进行一些渲染函数动作
+        if (returnFunc && !(returnFunc instanceof Promise)) returnFunc(time)
     }
     return animate()
 }

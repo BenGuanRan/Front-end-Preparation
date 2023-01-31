@@ -41,14 +41,17 @@ function App() {
             door_group.add(door_frame)
             // 定义一个门
             const door_geometry = new THREE.BoxGeometry(100, 150, 10)
+            const doorObj = new THREE.Object3D()
             const door = new THREE.Mesh(door_geometry, new THREE.MeshPhongMaterial({
                 color: 0xfae186,
                 // wireframe: true
             }))
+            doorObj.add(door)
+            doorObj.position.set(50, 0, 0)
             door.castShadow = true
-            door.position.set(0, 75, 8)
-            door.name = 'DOOR'
-            door_group.add(door)
+            door.position.set(-50, 75, 8)
+            doorObj.name = 'DOOR'
+            door_group.add(doorObj)
             scene.add(door_group)
             // 定义动画
             const door_track = new THREE.KeyframeTrack('DOOR.rotation[y]', [0, 3], [0, Math.PI / 2])
