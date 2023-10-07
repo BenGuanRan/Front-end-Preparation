@@ -10,3 +10,4 @@ Array.prototype.myMap = function (fn, thisArgs) {
     return resArray
 }
 console.log(arr.myMap((a, b, c) => c));
+arr.map()

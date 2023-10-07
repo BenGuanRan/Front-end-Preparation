@@ -60,10 +60,10 @@ export default function init(
     // 平行光
     if (options.d_light) {
         const d_light = new THREE.DirectionalLight(0xFFFFFF, 0.5);
-        const helper = new THREE.DirectionalLightHelper(d_light, 5, 0xff000000);
-        d_light.translateX(1000)
-        d_light.translateY(1000)
-        d_light.translateZ(1000)
+        const helper = new THREE.DirectionalLightHelper(d_light, 5);
+        d_light.translateX(100)
+        d_light.translateY(100)
+        d_light.translateZ(100)
         renderer.shadowMap.enabled = true
         d_light.castShadow = true
         d_light.shadow.camera.near = 10

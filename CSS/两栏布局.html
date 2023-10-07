@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="left"></div>
+    <div class="right"></div>
+    <div class="t1">
+        <div class="t2"></div>
+    </div>
+    <div class="box1"></div>
+    <div class="bbb"></div>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .left {
+            float: left;
+            width: 200px;
+            height: 100%;
+            background-color: #ccc;
+        }
+
+        .right {
+            overflow: hidden;
+            height: 100%;
+            background-color: pink;
+        }
+
+        .t1 {
+            font-size: 10px;
+            overflow: hidden;
+            margin-top: 3em;
+            width: 10em;
+            height: 10em;
+            background-color: blue;
+        }
+
+        .t2 {
+            margin-top: 3.5em;
+            width: 5em;
+            height: 5em;
+            background-color: red;
+        }
+
+        html {
+            font-size: 10px;
+        }
+
+        .box1 {
+            width: 20%;
+            height: 0;
+            padding-top: 20%;
+            background: orange;
+        }
+
+        .bbb {
+            width: 10rem;
+            height: 10rem;
+            background-color: #ccc;
+        }
+    </style>
+</body>
+<script>
+    {  //函数作用域开始，TDZ开始
+        // console.log(temp)  //ReferenceError: temp is not defined
+        //声明
+        let temp
+        console.log(temp)  //ReferenceError: Cannot access 'temp' before initialization
+        //赋值
+        temp = 345  //TDZ结束
+        console.log(temp)  //345
+        //块级作用域结束
+    }
+    //在块级作用域外访问
+    console.log(temp)  //ReferenceError: temp is not defined
+
+</script>
+
+</html>

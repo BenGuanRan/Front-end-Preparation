@@ -61,3 +61,32 @@ function deepCopy(target) {
 
 //     }
 // }
+
+function deepCopy(target) {
+    if (typeof target !== 'object' || target === null) {
+        return target
+    }
+    const res = Array.isArray(target) ? [] : {}
+    for (let key in target) {
+        if (typeof target[key] !== 'object' || target === null)
+            res[key] = target[key]
+        else res[key] = deepCopy(target[key])
+    }
+    return res
+}
+
+
+function deepCopy(target) {
+    // 如果是简单引用
+    if (typeof target !== 'object' || target === null)
+        return target
+    const res = Array.isArray(target) ? [] : {}
+    for (let k in target) {
+        if (typeof target[k] !== 'object' || target[k] === null)
+            res[k] = target[k]
+        else
+            res[k] = deepCopy(target[k])
+    }
+    return res
+
+}

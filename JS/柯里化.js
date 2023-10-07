@@ -56,3 +56,30 @@ function add() {
     fn.toString = () => args.reduce((i, j) => i + j)
     return fn
 }
+
+function add() {
+    const argsList = [...arguments]
+    function fn(...args) {
+        argsList.push(...args)
+        return fn
+    }
+    return fn
+}
+
+function curry() {
+    const args = [...arguments]
+    const fn = () => {
+        args.push(...arguments)
+        return fn
+    }
+    fn.toString = () => args.reduce((i, j) => i + j)
+    return fn
+}
+
+function curry() {
+    const args = [...arguments]
+    const fn = () => {
+        args.push(...arguments)
+        return fn
+    }
+}

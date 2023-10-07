@@ -1,3 +1,5 @@
+const { throwError } = require("rxjs")
+
 const myNew = function (fn, ...args) {
     // 检验fn是否为函数类型
     if (Object.prototype.toString.call(fn) !== '[Object function]')

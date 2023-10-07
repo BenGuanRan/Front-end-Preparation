@@ -1,0 +1,1 @@
+console.log('测试script组件');

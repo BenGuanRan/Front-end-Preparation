@@ -24,3 +24,22 @@ const target = {
 
 
 console.log(clone(target));
+
+function myClone(target) {
+    if (typeof target === 'object' && target !== null) {
+        const cloneTarget = Array.isArray(target) ? [] : {}
+        for (let i in target) {
+            cloneTarget[i] = myClone(target[i])
+        }
+        return cloneTarget
+    } else {
+        return target
+    }
+}
+
+
+function myClone(target) {
+    // 简单类型
+    直接return
+    // 否则看是数组还是
+}
